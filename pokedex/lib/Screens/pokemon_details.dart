@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pokedex/Components/Box/pokemon_power_box.dart';
 import 'package:pokedex/Models/Colors/general_colors.dart';
-import 'package:pokedex/Models/Colors/pokemon_type_colors.dart';
 import 'package:pokedex/State/pokemon_store.dart';
 import 'package:pokedex/Utils/pokemons_widgets.dart';
-import 'package:pokedex/Utils/strings.dart';
 import '../Components/Text/warning_text.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
@@ -17,12 +14,6 @@ class PokemonDetailsScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final PokemonsCustomWidgets pokemonsCustomWidgets = PokemonsCustomWidgets(context);
     final pokemonTitleStyle = TextStyle(color: GeneralColors.darkGray, fontWeight: FontWeight.bold);     
-
-    List<Widget> getPowersWigets() {
-      return singletonPokemonStore.pokemon!.types.map((type) => 
-        PokemonPowerBox(color: PokemonTypes.values.byName(type).color, text: capitalize(type))
-      ).toList();
-    }
 
     return Observer(
       builder: (context) {
@@ -67,7 +58,7 @@ class PokemonDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.only(top : size.height * 0.125),
                       child: Column(
                         children: [
-                          Wrap(children: getPowersWigets()),
+                          Wrap(children: PokemonsCustomWidgets(context).getPokemonPowersWigets()),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: size.width * 0.05),
                             child: Text(

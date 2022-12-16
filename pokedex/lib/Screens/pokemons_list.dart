@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pokedex/Components/Box/pokemon_card_preview.dart';
-import 'package:pokedex/Models/pokemon.dart';
 import 'package:pokedex/State/pokemons_list_store.dart';
-
+import 'package:pokedex/Utils/pokemons_widgets.dart';
 import '../Components/Text/warning_text.dart';
 
 class PokemonsListScreen extends StatefulWidget {
@@ -17,12 +15,6 @@ class _PokemonsListScreen extends State<PokemonsListScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    List<Widget> getPokemonsCardsWigets(List<Pokemon> pokemons) {
-      return pokemons.map((p) => 
-        PokemonCardPreview(pokemon: p)
-      ).toList();
-    }
 
     return Padding(
         padding: EdgeInsets.only(top : MediaQuery.of(context).viewPadding.top + 10),
@@ -43,7 +35,7 @@ class _PokemonsListScreen extends State<PokemonsListScreen> {
                 ),
               ),
               singletonPokemonListStore.warningMessage != null ? 
-                Wrap(children: getPokemonsCardsWigets(singletonPokemonListStore.pokemons)) :
+                Wrap(children: PokemonsCustomWidgets(context).getPokemonsPreviewCardsWigets()) :
                 const WarningText()    
             ],
           ),
