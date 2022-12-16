@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pokedex/Components/Box/pokemon_card_preview.dart';
-import 'package:pokedex/Repositories/pokemonapi_repository.dart';
-import 'package:pokedex/Models/Colors/general_colors.dart';
 import 'package:pokedex/Models/pokemon.dart';
 import 'package:pokedex/State/pokemons_list_store.dart';
 
+import '../Components/Text/warning_text.dart';
+
 class PokemonsListScreen extends StatefulWidget {
-  PokemonsListScreen({Key? key}) : super(key: key);
+  const PokemonsListScreen({Key? key}) : super(key: key);
 
   @override
   State<PokemonsListScreen> createState() => _PokemonsListScreen();
@@ -20,9 +20,7 @@ class _PokemonsListScreen extends State<PokemonsListScreen> {
 
     List<Widget> getPokemonsCardsWigets(List<Pokemon> pokemons) {
       return pokemons.map((p) => 
-        PokemonCardPreview(
-          pokemon: p,
-        )
+        PokemonCardPreview(pokemon: p)
       ).toList();
     }
 
@@ -44,9 +42,9 @@ class _PokemonsListScreen extends State<PokemonsListScreen> {
                   ],
                 ),
               ),
-              Wrap(
-                children: getPokemonsCardsWigets(singletonPokemonListStore.pokemons),
-              )       
+              singletonPokemonListStore.warningMessage != null ? 
+                Wrap(children: getPokemonsCardsWigets(singletonPokemonListStore.pokemons)) :
+                const WarningText()    
             ],
           ),
         ),

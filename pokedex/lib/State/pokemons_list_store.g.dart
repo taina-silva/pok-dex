@@ -45,15 +45,15 @@ mixin _$PokemonListStore on _PokemonListStoreBase, Store {
       Atom(name: '_PokemonListStoreBase.errorMessage', context: context);
 
   @override
-  String? get errorMessage {
+  String? get warningMessage {
     _$errorMessageAtom.reportRead();
-    return super.errorMessage;
+    return super.warningMessage;
   }
 
   @override
-  set errorMessage(String? value) {
-    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
-      super.errorMessage = value;
+  set warningMessage(String? value) {
+    _$errorMessageAtom.reportWrite(value, super.warningMessage, () {
+      super.warningMessage = value;
     });
   }
 
@@ -70,7 +70,7 @@ mixin _$PokemonListStore on _PokemonListStoreBase, Store {
     return '''
 pokemons: ${pokemons},
 isLoading: ${isLoading},
-errorMessage: ${errorMessage}
+errorMessage: ${warningMessage}
     ''';
   }
 }

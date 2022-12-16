@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             );
           } 
-          return PokemonsListScreen();
+          return const PokemonsListScreen();
         }
       )
     );

@@ -5,7 +5,9 @@ import 'package:pokedex/Components/Box/pokemon_power_box.dart';
 import 'package:pokedex/Models/Colors/general_colors.dart';
 import 'package:pokedex/Models/Colors/pokemon_type_colors.dart';
 import 'package:pokedex/State/pokemon_store.dart';
+import 'package:pokedex/Utils/pokemons_widgets.dart';
 import 'package:pokedex/Utils/strings.dart';
+import '../Components/Text/warning_text.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   const PokemonDetailsScreen({Key? key}) : super(key: key);
@@ -13,34 +15,8 @@ class PokemonDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final PokemonsCustomWidgets pokemonsCustomWidgets = PokemonsCustomWidgets(context);
     final pokemonTitleStyle = TextStyle(color: GeneralColors.darkGray, fontWeight: FontWeight.bold);     
-
-    Widget getPokemonFeaturesWidgets(List<String> feature, String featureType, {IconData? icon}) {
-      return SizedBox(
-        width: size.width * 0.2,
-        child: Column(
-          children: [
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                if(icon != null) Icon(icon, color: const Color.fromARGB(255, 121, 117, 117)),
-                if(icon != null) const SizedBox(width: 5),
-                Column(
-                  children: feature.map((e) => Text(
-                    capitalize(e),
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                    style: const TextStyle(color: Color.fromARGB(255, 121, 117, 117)
-                    ))).toList(),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(featureType, style: TextStyle(color: GeneralColors.mediumGray))
-          ],
-        ),
-      );
-    }
 
     List<Widget> getPowersWigets() {
       return singletonPokemonStore.pokemon!.types.map((type) => 
@@ -51,7 +27,7 @@ class PokemonDetailsScreen extends StatelessWidget {
     return Observer(
       builder: (context) {
         return singletonPokemonStore.pokemon == null ?
-          const Text('ERRO') :
+          const WarningText(message: 'ERRO AO ENCONTRAR POKÉMON') :
           Scaffold(
             body: Stack(
             children: [
@@ -103,9 +79,9 @@ class PokemonDetailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              getPokemonFeaturesWidgets(['${singletonPokemonStore.pokemon!.weight.toString()} lb'], 'Weight', icon: Icons.monitor_weight_outlined),
-                              getPokemonFeaturesWidgets(['${singletonPokemonStore.pokemon!.height.toString()} feet'], 'Height', icon: Icons.straighten),
-                              getPokemonFeaturesWidgets(singletonPokemonStore.pokemon!.moves, 'Moves'),
+                              pokemonsCustomWidgets.getPokemonFeaturesWidgets(['${singletonPokemonStore.pokemon!.weight.toString()} lb'], 'Weight', icon: Icons.monitor_weight_outlined),
+                              pokemonsCustomWidgets.getPokemonFeaturesWidgets(['${singletonPokemonStore.pokemon!.height.toString()} feet'], 'Height', icon: Icons.straighten),
+                              pokemonsCustomWidgets.getPokemonFeaturesWidgets(singletonPokemonStore.pokemon!.moves, 'Moves'),
                             ],
                           ),
                           Padding(
@@ -138,12 +114,17 @@ class PokemonDetailsScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back), color: GeneralColors.mediumGray),
+                      if(singletonPokemonStore.getPreviousOrNextPokemon(true) != null)
+                        IconButton(
+                          onPressed: () => singletonPokemonStore.updateToPreviousPokemon(), 
+                          icon: const Icon(Icons.arrow_back),color: GeneralColors.mediumGray),
                       SvgPicture.network(
                           singletonPokemonStore.pokemon!.image,
-                          height: size.width * 0.60,
-                      ),
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_forward), color: GeneralColors.mediumGray),
+                          height: size.width * 0.60,),
+                      if(singletonPokemonStore.getPreviousOrNextPokemon(false) != null)    
+                        IconButton(
+                          onPressed: () => singletonPokemonStore.updateToNextPokemon(), 
+                          icon: const Icon(Icons.arrow_forward), color: GeneralColors.mediumGray),
                     ],
                   ),
                 ),

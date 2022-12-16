@@ -20,18 +20,23 @@ abstract class _PokemonListStoreBase with Store {
   bool isLoading = false;
 
   @observable
-  String? errorMessage;
+  String? warningMessage;
+
+  @action
+  Future setWarningMessage(String message) async {
+    warningMessage = message;
+  }
 
   @action
   Future getPokemons() async {
     isLoading = true;
     try {
-      errorMessage = null;
+      warningMessage = null;
       final pokemonsList = await _pokemonApiRepository.fetchPokemons();
       pokemons = pokemonsList;
       isLoading = false;
     } catch (error) {
-      errorMessage = "Não foi possível carregar pokemons da pokeapi";
+      warningMessage = "Não foi possível carregar pokemons da pokeapi";
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:pokedex/Models/pokemon.dart';
+import '../State/pokemons_list_store.dart';
 
 class PokemonApiRepository {
 
@@ -28,12 +29,10 @@ class PokemonApiRepository {
 
           Pokemon pokemon = Pokemon.fromJson(jsonRes); 
           pokemons.add(pokemon);  
-                   
         } else print('Failed to load pokemon $pokemonId');
       }
-
-      return pokemons;
-    } else throw Exception('Failed to load pokemons');
+    } else singletonPokemonListStore.setWarningMessage('Failed to load pokemons');
+    return pokemons;
   }
   
 }
