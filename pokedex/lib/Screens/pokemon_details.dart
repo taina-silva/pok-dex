@@ -59,7 +59,8 @@ class PokemonDetailsScreen extends StatelessWidget {
                   height: size.height * 0.6,
                   padding: EdgeInsets.all(size.width * 0.01),
                   child: Card(
-                    color: GeneralColors.white,
+                    color: GeneralColors.background,
+                    shadowColor: GeneralColors.shadowCard,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
