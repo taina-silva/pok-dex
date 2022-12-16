@@ -34,10 +34,10 @@ abstract class _PokemonListStoreBase with Store {
       warningMessage = null;
       final pokemonsList = await _pokemonApiRepository.fetchPokemons();
       pokemons = pokemonsList;
-      isLoading = false;
     } catch (error) {
       warningMessage = "Não foi possível carregar pokemons da pokeapi";
     }
+    isLoading = false;
   }
 }
 

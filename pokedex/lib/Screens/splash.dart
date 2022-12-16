@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Observer(
         builder: (context) {
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: double.infinity,
               height: double.infinity,
               child: Center(
-                child: SvgPicture.asset('assets/images/icons/pokeball.svg'),
+                child: Image.asset('assets/images/icons/pokemon_logo.png', width: size.width * 0.7),
               ),
             );
           } 

@@ -15,6 +15,14 @@ class PokemonDetailsScreen extends StatelessWidget {
     final PokemonsCustomWidgets pokemonsCustomWidgets = PokemonsCustomWidgets(context);
     final pokemonTitleStyle = TextStyle(color: GeneralColors.darkGray, fontWeight: FontWeight.bold);     
 
+    Widget arrowButton({bool previous = true, bool hidden = false}) {
+      return hidden ? Container() :
+            IconButton(
+              onPressed: () => previous ? singletonPokemonStore.updateToPreviousPokemon() : singletonPokemonStore.updateToNextPokemon(),
+              icon: Icon(previous ? Icons.arrow_back : Icons.arrow_forward, size: size.width * 0.1),
+              color: GeneralColors.mediumGray,);
+    }
+
     return Observer(
       builder: (context) {
         return singletonPokemonStore.pokemon == null ?
@@ -105,17 +113,13 @@ class PokemonDetailsScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if(singletonPokemonStore.getPreviousOrNextPokemon(true) != null)
-                        IconButton(
-                          onPressed: () => singletonPokemonStore.updateToPreviousPokemon(), 
-                          icon: const Icon(Icons.arrow_back),color: GeneralColors.mediumGray),
+                      singletonPokemonStore.getPreviousOrNextPokemon(true) != null ?
+                        arrowButton(previous: true) : arrowButton(hidden: true),
                       SvgPicture.network(
                           singletonPokemonStore.pokemon!.image,
-                          height: size.width * 0.60,),
-                      if(singletonPokemonStore.getPreviousOrNextPokemon(false) != null)    
-                        IconButton(
-                          onPressed: () => singletonPokemonStore.updateToNextPokemon(), 
-                          icon: const Icon(Icons.arrow_forward), color: GeneralColors.mediumGray),
+                          height: size.width * 0.5),
+                      singletonPokemonStore.getPreviousOrNextPokemon(false) != null ?
+                        arrowButton(previous: false) : arrowButton(hidden: true),  
                     ],
                   ),
                 ),

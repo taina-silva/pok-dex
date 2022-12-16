@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pokédex',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(backgroundColor: Colors.black),
       home: Scaffold(backgroundColor: GeneralColors.background, body: const SplashScreen()),
     );

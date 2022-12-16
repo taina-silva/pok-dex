@@ -1,20 +1,18 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:pokedex/Models/pokemon.dart';
-import '../State/pokemons_list_store.dart';
 
 class PokemonApiRepository {
 
-  Future<List<Pokemon>> fetchPokemons({int? quantity}) async {
+  Future<List<Pokemon>> fetchPokemons() async {
     final List<Pokemon> pokemons = [];
     final response = await http
-        .get(Uri.parse('https://pokeapi.co/api/v2/pokemon?offset=20&limit=${quantity ?? 20}'));
-    
+        .get(Uri.parse('https://pokeapi.co/api/v2/pokemon'));
+
     if (response.statusCode == 200) {
       final res = json.decode(response.body);
       for(var pokemon in res['results']) {
         int pokemonId = res['results'].indexOf(pokemon) + 1;
-
         final responsePokemonDetails = await http
           .get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemonId'));        
 
@@ -30,9 +28,9 @@ class PokemonApiRepository {
           Pokemon pokemon = Pokemon.fromJson(jsonRes); 
           pokemons.add(pokemon);  
         } else print('Failed to load pokemon $pokemonId');
-      }
-    } else singletonPokemonListStore.setWarningMessage('Failed to load pokemons');
-    return pokemons;
+      }      
+      return pokemons;
+    } else throw Exception('Failed to load pokemons');    
   }
   
 }

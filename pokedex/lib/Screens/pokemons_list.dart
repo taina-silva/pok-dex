@@ -34,7 +34,7 @@ class _PokemonsListScreen extends State<PokemonsListScreen> {
                   ],
                 ),
               ),
-              singletonPokemonListStore.warningMessage != null ? 
+              singletonPokemonListStore.warningMessage == null ? 
                 Wrap(children: PokemonsCustomWidgets(context).getPokemonsPreviewCardsWigets()) :
                 const WarningText()    
             ],
