@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/Screens/pokemon_details.dart';
+import 'package:pokedex/Models/Colors/general_colors.dart';
 import 'package:pokedex/Screens/pokemons_list.dart';
+
+import 'Screens/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        backgroundColor: Colors.black,
       ),
-      home: Scaffold(body: PokemonsListScreen()),
+      home: Scaffold(backgroundColor: GeneralColors.background, body: SplashScreen()),
     );
   }
 }
